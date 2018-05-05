@@ -4,6 +4,8 @@ import com.arthurtran.Arch2D.main.Engine;
 import com.arthurtran.Arch2D.main.Window;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
@@ -40,9 +42,25 @@ public class Display extends Canvas implements Runnable, Engine {
 
         String time = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
 
-//        this.hours = hours;
-//        this.minutes = minutes;
-//        this.seconds = seconds;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.seconds = seconds;
+
+        angle = this.seconds * 6;
+        minAngle = this.minutes * 6;
+        hourAngle = this.hours * 30 + ((int) (minAngle / 60)) * 5;
+    }
+
+    public Display() {
+        window = new Window(700, 700, this);
+        window.createWindowWindowed();
+        window.getFrame().setTitle("Clock | Arthur Tran");
+
+        thread = new Thread(this);
+        thread.start();
+
+        String time = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+
         this.hours = Integer.parseInt(time.substring(0, 2));
         if(this.hours > 12) {
             this.hours -= 12;
@@ -108,26 +126,35 @@ public class Display extends Canvas implements Runnable, Engine {
         double deg = Math.toRadians(angle - 90);
         double deg2 = Math.toRadians(minAngle - 90);
         double deg3 = Math.toRadians(hourAngle - 90);
+        double deg4 = Math.toRadians(0);
 
         double x2 = 200 * Math.cos(deg);
         double y2 = 200 * Math.sin(deg);
-        double x2Min = 200 * Math.cos(deg2);
-        double y2Min = 200 * Math.sin(deg2);
-        double x2Hour = 100 * Math.cos(deg3);
-        double y2Hour = 100 * Math.sin(deg3);
+        double x2Min = 250 * Math.cos(deg2);
+        double y2Min = 250 * Math.sin(deg2);
+        double x2Hour = 125 * Math.cos(deg3);
+        double y2Hour = 125 * Math.sin(deg3);
 
-        g2.setStroke(new BasicStroke(5));
+        double zeroXSec = 200 * Math.cos(deg4);
+        double zeroYSec = 200 * Math.sin(deg4);
+
+        g2.setStroke(new BasicStroke(9.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
         g.setColor(Color.magenta);
-        g2.draw(new Line2D.Double(x - 2, y - 2, x2Min - 2 + x, y2Min - 2 + y));
+        g2.draw(new Line2D.Double(x - 4, y - 4, x2Min - 4 + x, y2Min - 4 + y));
+        g2.draw(new Arc2D.Double(new Rectangle2D.Double(x - 250 - 4, y - 250 - 4, 500, 500),
+                90, -minAngle, Arc2D.OPEN));
 
         g.setColor(Color.cyan);
-        g2.draw(new Line2D.Double(x - 2, y - 2, x2Hour - 2 + x, y2Hour - 2 + y));
-
-        g2.setStroke(new BasicStroke(1));
+        g2.draw(new Line2D.Double(x - 4, y - 4, x2Hour - 4 + x, y2Hour - 4 + y));
+        g2.draw(new Arc2D.Double(new Rectangle2D.Double(x - 243 - 4, y - 243 - 4, 486, 486),
+                90, -hourAngle, Arc2D.OPEN));
 
         g.setColor(Color.white);
-        g2.draw(new Line2D.Double(x - 2, y - 2, x2 - 2 + x, y2 - 2 + y));
+        g2.draw(new Line2D.Double(x - 4, y - 4, x2 - 4 + x, y2 - 4 + y));
+
+        g2.draw(new Arc2D.Double(new Rectangle2D.Double(x - 236 - 4, y - 236 - 4, 472, 472),
+                90, -angle, Arc2D.OPEN));
 
         String time = hours + ":" + minutes + ":" + seconds;
         if(minutes < 10) {
