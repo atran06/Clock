@@ -1,3 +1,5 @@
+package com.arthurtran.main;
+
 import com.arthurtran.Arch2D.main.Engine;
 import com.arthurtran.Arch2D.main.Window;
 
