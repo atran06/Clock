@@ -2,8 +2,10 @@
 
 A clock made in Java using the local time.
 
-![alt text](screenshots/Capture.PNG "Clock")
-![alt text](screenshots/Capture2.PNG "Clock on hover")
+<p float="left">
+  <img src="screenshots/Capture.PNG" width="40%">
+  <img src="screenshots/Capture.PNG" width="40%">
+</p>
 
 Made using <a href="https://github.com/atran06/Arch2D">Arch2D</a> game library.
 
