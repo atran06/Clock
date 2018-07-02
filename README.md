@@ -1,6 +1,6 @@
 # Clock
 
-A clock made in Java using the local time.
+A clock made in Java swing.
 
 <p float="left">
   <img src="screenshots/1.png" width="40%">
